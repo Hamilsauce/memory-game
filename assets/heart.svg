@@ -1,0 +1,9 @@
+
+<svg id="heart" data-scard-symbol="heart" width="256" height="256" viewBox="0 0 256 256" clip-path="url(#clippath2)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <clipPath id="clippath2" clipPathUnits="userSpaceOnUse">
+      <path d=" M 0,0 256,0 256,256 0,256 0,0 Z" />
+    </clipPath>
+  </defs>
+  <path d=" M 255.97,207.521 C 222.8,130.187 128.646,148.239 128.018,237.981 127.644,287.281 172.838,305.731 202.944,325.439 232.144,344.553 252.894,370.681 256.128,381.813 258.96,370.905 282.05,344.053 309.08,324.899 338.61,303.977 384.356,286.761 384.016,237.467 383.396,147.501 287.552,133.291 255.97,207.521 Z" transform="matrix(1,0,0,1,-128,-128)" />
+</svg>
