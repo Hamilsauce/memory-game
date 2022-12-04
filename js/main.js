@@ -1,5 +1,6 @@
 import { SYMBOL_NAMES } from './symbols.js';
-import { Card } from './Cards.js';
+import { Card } from './Card.js';
+import { Deck } from './Deck.js';
 import { GameClock } from './gameClock.js';
 import { Game } from './Game.js';
 import { settingsAlert } from './settings.js';
@@ -48,16 +49,16 @@ function handleCardSelect(event) { //* Handles card select state, routes cards f
     checkSelected(game.selected);
     prevTarget = card;
   }
-  console.log('card', card)
+  // console.log('card', card)
 }
 
 //* Manages general card and card array states
 const checkSelected = cardPair => {
   const [card1, card2] = cardPair;
   let deckCheck;
-
   if (card1.textContent === card2.textContent) { //! a match is made!
     cardPair.forEach(card => {
+      console.warn('cardPair forEach', card)
 
       // Set timeout used for transition delay
       setTimeout(() => {
@@ -67,12 +68,16 @@ const checkSelected = cardPair => {
 
       card.removeEventListener('click', handleCardSelect);
 
-      const cardObjIndex = game.deck.cards //! get index of card object wtih matching symbol as that of clicked card div
-        .findIndex(cardObj => cardObj.cardSymbol == card.textContent);
-
-      const matchedCard = game.deck.cards.splice(cardObjIndex, 1); //! move said card to matched array (out of deck)
-
+      const cardIndex = game.deck.cards //! get index of card object wtih matching symbol as that of clicked card div
+        .findIndex(cardObj => {
+          // console.warn('cardObj', cardObj)
+          // console.warn('card', card)
+          return card.id = cardObj.className
+        }) //[0]
+      const matchedCard = game.deck.cards.splice(cardIndex, 1); //! move said card to matched array (out of deck)
+      // console.warn('matchedCard', matchedCard)  
       matchedCard.isMatched = true;
+
       game.matched.push(matchedCard);
       game.deck.updateDeckSize();
 
@@ -104,8 +109,6 @@ const checkSelected = cardPair => {
       endGame();
     }, 1500);
   };
-
-  // console.warn(game);
 }
 
 const cardMaker = (cSymbol) => {
@@ -137,6 +140,7 @@ const newGame = () => {
   buildDeck(SYMBOL_NAMES);
 
   game.deck.shuffle();
+
   game.setBoard();
 
   clock.start(document.querySelector('.time-counter'));
@@ -161,19 +165,19 @@ const endGame = () => {
   const endModal = document.querySelector('.endModal');
 
   game.gameTime = clock.finalTime;
+
   game.gameOver();
 
   displayStats();
 
   document.querySelector('.game-grid').innerHTML = '';
+
   document.querySelector('.turns-counter').innerHTML = '0';
 
   setTimeout(() => {
     document.querySelector('.dimmer').style.display = 'flex';
     endModal.style.display = 'grid';
   }, 300);
-
-  // console.warn({ game });
 }
 
 //@ Eventlisteners!!
@@ -236,7 +240,7 @@ document.querySelector('.shareButton').addEventListener('click', () => {
     setTimeout(() => {
       shareButton.textContent = 'Not supported by browser...';
     }, 500);
-  
+
     setTimeout(() => {
       shareButton.innerHTML = buttonContent;
     }, 2000);
@@ -245,9 +249,9 @@ document.querySelector('.shareButton').addEventListener('click', () => {
 
 function showMessage(element, msg) {
   const shareButton = document.querySelector('.shareButton');
-  
+
   element.textContent = msg;
- 
+
   setTimeout(() => {
     shareButton.innerHTML = buttonContent;
   }, 2000);

@@ -1,4 +1,4 @@
-import { Deck } from './Cards.js';
+import { Deck } from './Deck.js';
 
 export class Game {
   constructor(gameBoard) {
