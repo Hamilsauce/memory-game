@@ -8,7 +8,7 @@ export class Card {
     this.sharedClassName = 'grid-cell';
     this.eventHandler = eventHandler;
     this.isSelected = false;
-    console.warn('Card', this)
+    // console.warn('Card', this)
   }
 
   static getSymbol(symbol) { return template(`${symbol}-symbol`) }
@@ -21,18 +21,14 @@ export class Card {
   render() {
     const card = template('card');
     const symb = Card.getSymbol(this.cardSymbol);
-    card.querySelector('.card-content').append(symb)
+    
+    card.querySelector('.card-content').append(symb);
     card.classList.add(`${this.className}`, 'grid-cell', 'card');
-    card.id = this.className
+    card.id = this.className;
 
     card.addEventListener('click', this.eventHandler);
-    return card
-    const cardEl = document.createElement('div');
-    const cardText = document.createTextNode(this.cardSymbol);
 
-    cardEl.appendChild(cardText);
-    // console.log(cardEl);
-    return cardEl;
+    return card;
   }
 
   toggleSelected() {

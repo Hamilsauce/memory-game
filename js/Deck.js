@@ -1,5 +1,5 @@
 // import { Card } from './Card.js';
- export class Deck {
+export class Deck {
   constructor() {
     this.cards = [];
     this.deckSize = 0;
@@ -11,8 +11,9 @@
   }
 
   createMatchingCards() {
-    this.cards = this.cards.reduce((result, curr) => result.concat([curr, curr]), []);
-
+    this.cards = (this.cards.reduce((result, curr) => result.concat([curr, curr]), []))
+    // this.shuffle()
+console.log('this.cards', this.cards)
     this.updateDeckSize();
   }
 
@@ -26,6 +27,6 @@
   generateCard(card) {
     this.cards.push(card);
     this.updateDeckSize();
-    console.warn('generateCard', this);
+    // console.warn('generateCard', this);
   }
 }

@@ -28,7 +28,7 @@ const clock = new GameClock;
 
 function handleCardSelect(event) { //* Handles card select state, routes cards for match testing if appropriate
   const card = event.target.closest('.card')
-
+console.log('card in handle selexy', card.id);
   const selectCard = (card) => { //adds clicked card to selected array
     card.classList.add('selected');
     game.selected.push(card);
@@ -54,11 +54,12 @@ function handleCardSelect(event) { //* Handles card select state, routes cards f
 
 //* Manages general card and card array states
 const checkSelected = cardPair => {
-  const [card1, card2] = cardPair;
   let deckCheck;
-  if (card1.textContent === card2.textContent) { //! a match is made!
+  const [card1, card2] = cardPair;
+
+  
+  if (card1.id === card2.id) { //! a match is made!
     cardPair.forEach(card => {
-      console.warn('cardPair forEach', card)
 
       // Set timeout used for transition delay
       setTimeout(() => {
@@ -70,15 +71,16 @@ const checkSelected = cardPair => {
 
       const cardIndex = game.deck.cards //! get index of card object wtih matching symbol as that of clicked card div
         .findIndex(cardObj => {
-          // console.warn('cardObj', cardObj)
-          // console.warn('card', card)
+        // console.log('cardObj.className', cardObj.className)
           return card.id = cardObj.className
-        }) //[0]
+        });
+     
       const matchedCard = game.deck.cards.splice(cardIndex, 1); //! move said card to matched array (out of deck)
-      // console.warn('matchedCard', matchedCard)  
+
       matchedCard.isMatched = true;
 
       game.matched.push(matchedCard);
+      
       game.deck.updateDeckSize();
 
       //!after each match is made, test if deck is depleted/game over or not
@@ -113,6 +115,7 @@ const checkSelected = cardPair => {
 
 const cardMaker = (cSymbol) => {
   const cardClass = `cell${cSymbol}`;
+  console.log('cardMaker cardClass', cardClass)
   const newCard = new Card(cardClass, cSymbol, handleCardSelect);
 
   game.countCard();
