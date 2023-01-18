@@ -1,34 +1,33 @@
 import { SYMBOL_NAMES } from './symbols.js';
 import { Card } from './Card.js';
 import { Deck } from './Deck.js';
+import { ModalView } from '../components/modal.js';
 import { GameClock } from './gameClock.js';
 import { Game } from './Game.js';
 import { settingsAlert } from './settings.js';
+import { initializeFirebase } from '../firebase/firebase.js';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDlj4rmHO_kq3Z6ya2zqgGdP0AUg2znX9I",
-  authDomain: "memory-card-app.firebaseapp.com",
-  databaseURL: "https://memory-card-app.firebaseio.com",
-  projectId: "memory-card-app",
-  storageBucket: "memory-card-app.appspot.com",
-  messagingSenderId: "174804862889",
-  appId: "1:174804862889:web:64474a9820dd9d87c6e6b8",
-  measurementId: "G-9ENQL2QJRE"
-};
-
-firebase.initializeApp(firebaseConfig);
+initializeFirebase();
 
 const userform = document.querySelector('.userform');
-document.querySelector('.endModal').style.display = 'none';
 
 let prevTarget;
 
 const game = new Game(document.querySelector('.game-grid'));
 const clock = new GameClock;
+const modalView = new ModalView();
 
-function handleCardSelect(event) { //* Handles card select state, routes cards for match testing if appropriate
+document.querySelector('[data-component-reference="modal-view"]').replaceWith(modalView.dom)
+
+document.addEventListener('user:action', e => {
+  const { action } = e.detail;
+
+  if (action === 'newgame') newGame();
+});
+
+function handleCardSelect(event) {
   const card = event.target.closest('.card')
-console.log('card in handle selexy', card.id);
+
   const selectCard = (card) => { //adds clicked card to selected array
     card.classList.add('selected');
     game.selected.push(card);
@@ -49,7 +48,6 @@ console.log('card in handle selexy', card.id);
     checkSelected(game.selected);
     prevTarget = card;
   }
-  // console.log('card', card)
 }
 
 //* Manages general card and card array states
@@ -57,7 +55,7 @@ const checkSelected = cardPair => {
   let deckCheck;
   const [card1, card2] = cardPair;
 
-  
+
   if (card1.id === card2.id) { //! a match is made!
     cardPair.forEach(card => {
 
@@ -71,16 +69,15 @@ const checkSelected = cardPair => {
 
       const cardIndex = game.deck.cards //! get index of card object wtih matching symbol as that of clicked card div
         .findIndex(cardObj => {
-        // console.log('cardObj.className', cardObj.className)
           return card.id = cardObj.className
         });
-     
+
       const matchedCard = game.deck.cards.splice(cardIndex, 1); //! move said card to matched array (out of deck)
 
       matchedCard.isMatched = true;
 
       game.matched.push(matchedCard);
-      
+
       game.deck.updateDeckSize();
 
       //!after each match is made, test if deck is depleted/game over or not
@@ -166,6 +163,8 @@ const displayStats = () => {
 
 const endGame = () => {
   const endModal = document.querySelector('.endModal');
+  modalView.setActiveModal('end');
+  modalView.toggleShow()
 
   game.gameTime = clock.finalTime;
 
@@ -178,77 +177,54 @@ const endGame = () => {
   document.querySelector('.turns-counter').innerHTML = '0';
 
   setTimeout(() => {
-    document.querySelector('.dimmer').style.display = 'flex';
-    endModal.style.display = 'grid';
+    modalView.show = true;
   }, 300);
 }
 
-//@ Eventlisteners!!
-document.querySelector('.newGameButton').addEventListener('click', e => {
-  setTimeout(() => {
-    document.querySelector('.modal').style.display = 'none';
-    document.querySelector('.dimmer').style.display = 'none';
-  }, 300);
-
-  newGame();
-})
-
-document.querySelector('.restartButton').addEventListener('click', (e) => {
-  const endModal = document.querySelector('.endModal');
-
-  setTimeout(() => {
-    document.querySelector('.dimmer').style.display = 'none';
-    endModal.style.display = 'none';
-  }, 300);
-
-  newGame();
-});
-
-document.querySelector('.stop-button').addEventListener('click', (e) => { //TODO broken, disabled for now
-  setTimeout(() => {
-    location.reload();
-  }, 300);
-});
-
-document.querySelector('.modalTop').addEventListener('click', (e) => { //!gamehistory
-  setTimeout(() => {
-    parent.location = './gameLobby.html';
-  }, 750);
-});
-
-document.querySelector('.modalBottom').addEventListener('click', (e) => { //!settings button
-  setTimeout(() => {
-    settingsAlert();
-  }, 750);
-});
-
-// TODO Put sharebutton in module
-document.querySelector('.shareButton').addEventListener('click', () => {
-  const shareButton = document.querySelector('.shareButton');
-  const title = document.querySelector('h1').textContent;
-  const buttonContent = shareButton.innerHTML;
-  const url =
-    document.querySelector('link[rel=canonical]') &&
-    document.querySelector('link[rel=canonical]').href ||
-    window.location.href;
-
-  if (navigator.share) {
-    navigator.share({ title, url })
-      .then(() => {})
-      .catch(err => {
-        alert('No built in share technology');
-      });
-  }
-  else {
+setTimeout(() => {
+  //@ Eventlisteners!!
+  document.querySelector('.modalTop').addEventListener('click', (e) => { //!gamehistory
     setTimeout(() => {
-      shareButton.textContent = 'Not supported by browser...';
-    }, 500);
+      parent.location = './gameLobby.html';
+    }, 750);
+  });
 
+  document.querySelector('.modalBottom').addEventListener('click', (e) => { //!settings button
     setTimeout(() => {
-      shareButton.innerHTML = buttonContent;
-    }, 2000);
-  }
-});
+      settingsAlert();
+    }, 750);
+  });
+
+  // TODO Put sharebutton in module
+  document.querySelector('.shareButton').addEventListener('click', () => {
+    const shareButton = document.querySelector('.shareButton');
+    const title = document.querySelector('h1').textContent;
+    const buttonContent = shareButton.innerHTML;
+    const url =
+      document.querySelector('link[rel=canonical]') &&
+      document.querySelector('link[rel=canonical]').href ||
+      window.location.href;
+
+    if (navigator.share) {
+      navigator.share({ title, url })
+        .then(() => {})
+        .catch(err => {
+          alert('No built in share technology');
+        });
+    }
+    else {
+      setTimeout(() => {
+        shareButton.textContent = 'Not supported by browser...';
+      }, 500);
+
+      setTimeout(() => {
+        shareButton.innerHTML = buttonContent;
+      }, 2000);
+    }
+  });
+
+}, 1000)
+
 
 function showMessage(element, msg) {
   const shareButton = document.querySelector('.shareButton');

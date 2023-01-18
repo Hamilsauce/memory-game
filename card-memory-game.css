@@ -25,7 +25,7 @@ body {
   background: rgb(33, 147, 212);
 }
 
-.dimmer {
+#modal-view, .dimmer {
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -37,7 +37,11 @@ body {
   height: 100%;
 }
 
-.endModal {
+#modal-view[data-show=false] {
+  display: none;
+}
+
+#end-modal, .endModal {
   box-sizing: border-box;
   position: relative;
   display: grid;
@@ -164,7 +168,7 @@ body {
   color: white;
 }
 
-.modal {
+#options-modal, .modal {
   box-sizing: border-box;
   position: relative;
   display: grid;

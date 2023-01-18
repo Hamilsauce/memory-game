@@ -13,7 +13,7 @@ export class Deck {
   createMatchingCards() {
     this.cards = (this.cards.reduce((result, curr) => result.concat([curr, curr]), []))
     // this.shuffle()
-console.log('this.cards', this.cards)
+console.warn('this.cards', this.cards)
     this.updateDeckSize();
   }
 

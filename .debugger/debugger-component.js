@@ -4,14 +4,15 @@ import _template from './template.js';
 import ham from 'https://hamilsauce.github.io/hamhelper/hamhelper1.0.0.js';
 const { rxjs, utils } = ham;
 
-const { timer, sampleTime, forkJoin, Observable, iif, BehaviorSubject, AsyncSubject, Subject, interval, of , fromEvent, merge, empty, delay, from } = rxjs;
+const { timer, sampleTime, forkJoin, Observable, iif, BehaviorSubject, AsyncSubject, Subject, interval, of, fromEvent, merge, empty, delay, from } = rxjs;
 const { takeUntil, takeWhile, concatMap, flatMap, reduce, groupBy, toArray, mergeMap, switchMap, scan, map, tap, filter } = rxjs.operators;
 const { fromFetch } = rxjs.fetch;
+
 const animate = (target, stylePropName, newValue, time = 200) => {
   const tempTrans = target.style.transition;
   const temp = target.style[stylePropName];
 
-  target.style.transition = `${time/1000}s`
+  target.style.transition = `${time / 1000}s`
 
   target.style[stylePropName] = newValue;
 

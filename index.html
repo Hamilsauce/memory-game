@@ -16,7 +16,9 @@
 </head>
 
 <body>
-  <div class="dimmer">
+
+<div data-component-reference="modal-view"></div>
+  <!-- <div class="dimmer">
     <div class="modal">
       <div class="modalDiv modalTop">Scores</div>
       <div class="modalDiv newGameButton">New Game</div>
@@ -43,7 +45,7 @@
         <div class="gameHistoryDisplay"></div>
       </div>
     </div>
-  </div>
+  </div> -->
   <main class="app">
     <header class="app-header">
       <div class="header-container">
@@ -88,6 +90,52 @@
       <div id="debug-toggle">DEBUG</div>
       <div id="debug-panel"></div>
     </div>
+  </template>
+
+  <template id="modal-view-template">
+    <section id="modal-view">
+      <div id="modal-dimmer"></div>
+      <div id="active-modal-container"></div>
+    </section>
+  </template>
+
+  <template id="options-modal-template">
+    <div id="options-modal">
+      <div data-modal-button class="modalDiv modalTop" data-action="scores">Scores</div>
+      <div data-modal-button class="modalDiv newGameButton" data-action="newgame">New Game</div>
+      <div data-modal-button class="modalDiv modalBottom" data-action="settings">Settings</div>
+    </div>
+  </template>
+
+  <template id="end-modal-template">
+    <div id="end-modal">
+      <div class="endModalDiv endModalTop">
+        <p class="playerName"></p>
+        <p class="scoreHeader"></p>
+        <div class="scoresContainer">
+          <span class="scoreHeader">Turns</span>
+          <span class="scoreHeader">Stars</span>
+          <span class="scoreHeader">Time</span>
+          <div class="turnScore gameStat"></div>
+          <div class="starsDisplay gameStat"></div>
+          <div class="timeScore gameStat"></div>
+        </div>
+      </div>
+      <div class="endModalDiv endModalMiddle">
+        <button data-modal-button  class="restartButton" data-action="newgame">Play Again</button>
+        <button data-modal-button class="stop-button" data-action="done">Done</button>
+      </div>
+      <div class="endModalDiv endModalBottom">
+        <div class="gameHistoryDisplay"></div>
+      </div>
+    </div>
+  </template>
+
+  <template id="app-modal-template">
+    <section id="app-modal-view">
+      <div id="modal-dimmer"></div>
+      <div id="active-modal"></div>
+    </section>
   </template>
 
   <template id="card-template">
@@ -170,7 +218,7 @@
     </svg>
   </template>
 
-  
+
   <template id="flower-symbol-template">
     <svg id="flower" data-card-symbol="flower" class="card-symbol" width="256" height="256" viewBox="0 0 386 344" clip-path="url(#flowersclip)" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
       <defs>
