@@ -2,19 +2,21 @@
 export class Deck {
   constructor() {
     this.cards = [];
-    this.deckSize = 0;
+    // this.deckSize = 0;
   }
 
+  get deckSize() { return this.cards.length; }
+
   updateDeckSize() {
-    this.deckSize = this.cards.length;
+    // this.deckSize = this.cards.length;
     return this.deckSize;
   }
 
   createMatchingCards() {
     this.cards = (this.cards.reduce((result, curr) => result.concat([curr, curr]), []))
     // this.shuffle()
-console.warn('this.cards', this.cards)
-    this.updateDeckSize();
+    console.warn('this.cards', this.cards)
+    // this.updateDeckSize();
   }
 
   shuffle() {
@@ -26,7 +28,7 @@ console.warn('this.cards', this.cards)
 
   generateCard(card) {
     this.cards.push(card);
-    this.updateDeckSize();
+    // this.updateDeckSize();
     // console.warn('generateCard', this);
   }
 }

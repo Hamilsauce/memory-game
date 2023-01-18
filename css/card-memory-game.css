@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css?family=Prompt:400,700,800&display=swap');
+
+* {
+  outline: none;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+html {
+  box-sizing: border-box;
+  padding: 0;
+  margin: auto;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.877);
+  background: rgb(86, 135, 200);
+  font-family: 'Prompt', sans-serif;
+}
+
+body {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+  margin: auto;
+  /* background: rgba(255, 255, 255, 0.877); */
+  background: rgb(33, 147, 212);
+}
+
+#app {
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+  /* height: 640px; */
+  max-width: 600px;
+  margin: auto;
+  /* border: 2px solid rgba(212, 157, 84, 0.349); */
+  padding: 0px 0px;
+  /* background: rgb(60, 119, 197); */
+
+}
+
+#app-header {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 0px 0px;
+  justify-content: center;
+  text-align: center;
+}
+
+#app-body {
+  /* padding: 0 4px; */
+}
+
+.header-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: rgba(53, 163, 39, 0.904);
+  border-bottom: 2px solid white;
+}
+
+.header-text {
+  color: white;
+  margin: 0;
+  padding: 10px;
+}
+
+.symbolIn {
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 3px;
+  border: 1px solid white;
+  margin: 5px auto;
+}
+
+.submitButton {
+  padding: 5px;
+  font-size: 1em;
+  border-radius: 3px;
+  border: 1px solid white;
+  background: rgba(240, 249, 240, 1);
+}
+
+.scoreboard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  color: white;
+  font-size: 1.3em;
+}
+
+#game-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 4px;
+  height: 100%;
+  min-height: 488px;
+  max-height: 600px;
+  width: fit-content;
+  min-width: 90%;
+  /* margin: auto; */
+  padding: 4px 4px;
+  border: 2px solid white;
+  box-shadow: 0px 0px 7px 1px inset rgba(46, 34, 19, 0.548);
+  border-radius: 5px;
+  color: rgb(63, 62, 62);
+  background: rgb(224, 183, 71);
+  overflow: hidden;
+}
+
+.app-footer {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+  min-height: 100px;
+}
+
+.shareButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  padding: 2px 2px 2px 2px;
+  padding: 5px;
+  margin: auto;
+  background: rgb(212, 160, 14);
+  box-shadow: 0px 0px 10px 3px rgba(54, 63, 88, 0.171);
+  border-radius: 100px;
+  border: 2px solid rgb(214, 214, 214);
+  outline: none;
+  transition: 0.2s;
+  font-size: 1.3em;
+  font-weight: 400;
+  color: rgb(71, 71, 71);
+}
+
+.shareButton:active {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+  padding: 2px 2px 2px 2px;
+  padding: 0px;
+  margin: auto;
+  background: rgb(167, 140, 60);
+  box-shadow: 0px 0px 14px 3px rgba(81, 100, 156, 0.623);
+  border-radius: 5px;
+  border: 5px solid rgb(214, 214, 214);
+  outline: none;
+  transition: 0.29s;
+}
+
+.shareIcon {
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0);
+  padding: 2px;
+  border-radius: 2px;
+  box-shadow: 0px 0px 10px 3px inset rgba(103, 111, 131, 0);
+  fill: rgba(235, 230, 240, 1);
+  transition: 0.2s;
+}
+
+.shareIcon:active {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0);
+  padding: 2px;
+  border-radius: 2px;
+  box-shadow: 0px 0px 17px 3px rgba(198, 210, 218, 0.657);
+  fill: rgb(54, 127, 223);
+}
+
+/* @media screen and (max-width: 450px) {
+  .app {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: 1fr 2fr 2fr;
+    width: 100%;
+    height: 640px;
+    margin: 0px;
+    border: 0px solid rgb(189, 153, 107);
+  }
+
+  .content-container {
+    box-sizing: border-box;
+  }
+
+  #game-grid {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(50px, 1fr));
+    grid-auto-rows: auto;
+    grid-template-rows: repeat(auto, 120px);
+    gap: 10px;
+    width: 98vw;
+    height: 100%;
+    margin: auto;
+    padding: 4px;
+  }
+
+  .grid-cell {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;min-width: 75px;
+    min-height: 115px;
+    max-height: 125px;
+    width: 100%;
+    max-width: 100px;
+  }
+
+  .endModalDiv {
+    display: flex;
+    justify-content: space-around;
+    box-shadow: 0px 0px 4px 2px rgba(60, 80, 80, 0.8);
+    background: rgba(255, 255, 255, 0.9);
+    color: rgba(80, 80, 80, 0.8);
+  }
+
+  endModalDiv:active {}
+
+  .modalDiv {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 15px;
+    height: fit-content;
+    margin: 0px;
+    padding-top: 20px;
+    box-shadow: 0px 0px 4px 2px rgba(60, 80, 80, 0.8);
+    background: rgba(255, 255, 255, 0.9);
+    transition: 0.3s;
+  }
+
+  .modalDiv:hover {
+    background: rgba(255, 255, 255, 1);
+    color: rgba(80, 80, 80, 0.9);
+  }
+
+  .modalDiv:active {
+    box-shadow: 0px 0px 15px 1px inset rgba(41, 41, 41, 0.4);
+  }
+} */
+
+#debug {
+  position: absolute;
+  top: 300px;
+  left: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  gap: 0px;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  backdrop-filter: blur(30px) opacity(0.75) brightness(200%);
+  z-index: 500;
+  box-shadow: 0 0 4px 1px #00000057;
+  overflow: hidden;
+}
+
+#debug-toggle {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  width: 50px;
+  height: 50px;
+  padding: 4px;
+  border-radius: 50%;
+  background: #1622A4;
+  color: #DEDEDE;
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0.8;
+  z-index: 502;
+  overflow: hidden;
+  /* display: none; */
+}
+
+#debug-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  width: 50px;
+  height: 50px;
+  padding: 4px;
+  border-radius: 50%;
+  background: #FFFFFF30;
+  color: #DEDEDE;
+  font-weight: 600;
+  font-size: 14px;
+  opacity: 0.8;
+  z-index: 501;
+  overflow: hidden;
+}

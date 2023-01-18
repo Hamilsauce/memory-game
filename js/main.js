@@ -1,6 +1,8 @@
 import { SYMBOL_NAMES } from './symbols.js';
 import { Card } from './Card.js';
 import { Deck } from './Deck.js';
+import { ShareButton } from '../components/share-button.component.js';
+import { GameGrid  } from '../components/game-grid.component.js';
 import { ModalView } from '../components/modal.js';
 import { GameClock } from './gameClock.js';
 import { Game } from './Game.js';
@@ -13,11 +15,19 @@ const userform = document.querySelector('.userform');
 
 let prevTarget;
 
-const game = new Game(document.querySelector('.game-grid'));
-const clock = new GameClock;
-const modalView = new ModalView();
+const clock = new GameClock();
 
-document.querySelector('[data-component-reference="modal-view"]').replaceWith(modalView.dom)
+const modalView = new ModalView();
+const shareButton = new ShareButton();
+const gameGrid = new GameGrid();
+
+const game = new Game(gameGrid.dom);
+
+document.querySelector('[data-component-ref="modal-view"]').replaceWith(modalView.dom)
+document.querySelector('[data-component-ref="share-button"]').replaceWith(shareButton.dom)
+document.querySelector('[data-component-ref="game-grid"]').replaceWith(gameGrid.dom)
+
+
 
 document.addEventListener('user:action', e => {
   const { action } = e.detail;
@@ -53,6 +63,7 @@ function handleCardSelect(event) {
 //* Manages general card and card array states
 const checkSelected = cardPair => {
   let deckCheck;
+  
   const [card1, card2] = cardPair;
 
 
@@ -78,7 +89,7 @@ const checkSelected = cardPair => {
 
       game.matched.push(matchedCard);
 
-      game.deck.updateDeckSize();
+      // game.deck.updateDeckSize();
 
       //!after each match is made, test if deck is depleted/game over or not
       deckCheck = game.deck.cards.length == 0 ? 'allCardsMatched' : '';
@@ -112,7 +123,6 @@ const checkSelected = cardPair => {
 
 const cardMaker = (cSymbol) => {
   const cardClass = `cell${cSymbol}`;
-  console.log('cardMaker cardClass', cardClass)
   const newCard = new Card(cardClass, cSymbol, handleCardSelect);
 
   game.countCard();
@@ -133,7 +143,7 @@ const buildDeck = cardSymbols => { //! takes array of SYMBOL_NAMES, calls cardMa
 }
 
 const newGame = () => {
-  document.querySelector('.game-grid').innerHTML = '';
+  document.querySelector('#game-grid').innerHTML = '';
 
   game.resetGame();
 
@@ -172,7 +182,7 @@ const endGame = () => {
 
   displayStats();
 
-  document.querySelector('.game-grid').innerHTML = '';
+  document.querySelector('#game-grid').innerHTML = '';
 
   document.querySelector('.turns-counter').innerHTML = '0';
 
@@ -196,32 +206,32 @@ setTimeout(() => {
   });
 
   // TODO Put sharebutton in module
-  document.querySelector('.shareButton').addEventListener('click', () => {
-    const shareButton = document.querySelector('.shareButton');
-    const title = document.querySelector('h1').textContent;
-    const buttonContent = shareButton.innerHTML;
-    const url =
-      document.querySelector('link[rel=canonical]') &&
-      document.querySelector('link[rel=canonical]').href ||
-      window.location.href;
+  // document.querySelector('.shareButton').addEventListener('click', () => {
+  //   const shareButton = document.querySelector('.shareButton');
+  //   const title = document.querySelector('h1').textContent;
+  //   const buttonContent = shareButton.innerHTML;
+  //   const url =
+  //     document.querySelector('link[rel=canonical]') &&
+  //     document.querySelector('link[rel=canonical]').href ||
+  //     window.location.href;
 
-    if (navigator.share) {
-      navigator.share({ title, url })
-        .then(() => {})
-        .catch(err => {
-          alert('No built in share technology');
-        });
-    }
-    else {
-      setTimeout(() => {
-        shareButton.textContent = 'Not supported by browser...';
-      }, 500);
+  //   if (navigator.share) {
+  //     navigator.share({ title, url })
+  //       .then(() => {})
+  //       .catch(err => {
+  //         alert('No built in share technology');
+  //       });
+  //   }
+  //   else {
+  //     setTimeout(() => {
+  //       shareButton.textContent = 'Not supported by browser...';
+  //     }, 500);
 
-      setTimeout(() => {
-        shareButton.innerHTML = buttonContent;
-      }, 2000);
-    }
-  });
+  //     setTimeout(() => {
+  //       shareButton.innerHTML = buttonContent;
+  //     }, 2000);
+  //   }
+  // });
 
 }, 1000)
 
