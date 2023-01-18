@@ -136,7 +136,7 @@ const cardMaker = (cSymbol) => {
 
 const buildDeck = cardSymbols => { //! takes array of SYMBOL_NAMES, calls cardMaker on each, then adds each to game.deck. deck then duplicates to create matches
   cardSymbols.forEach(symbol => {
-    game.deck.generateCard(cardMaker(symbol, 'game-grid'));
+    game.deck.insertCard(cardMaker(symbol, 'game-grid'));
   });
 
   game.deck.createMatchingCards();

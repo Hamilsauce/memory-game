@@ -1,8 +1,8 @@
 export class GameClock {
   constructor() {
-    this.seconds = 0;
+    this.seconds = 55;
     this.minutes = 0;
-    this.display = [];
+    this.display = null;
     this.finalTime = '';
     this.isRunning = false;
     this.timeFunction = {};
@@ -12,6 +12,7 @@ export class GameClock {
     this.timeFunction = setTimeout(() => {
       this.addSec();
       this.showTime(this.display);
+      console.log('this.display', this.display)
     }, 1000);
   }
 

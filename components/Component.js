@@ -12,11 +12,13 @@ export const ComponentOptions = {
   templateName: 'map',
   elementProperties: ElementProperties,
   children: [],
+  components: {},
 }
 
 export class Component extends EventEmitter {
   #self;
   #name;
+  components = {};
 
   constructor(name, options = ComponentOptions) {
     super();
@@ -24,7 +26,9 @@ export class Component extends EventEmitter {
     if (!name) throw new Error('No name passed to constructor for ', this.constructor.name);
 
     if (options && options !== ComponentOptions) {
-      this.#self = DOM.createElement(options)
+      this.#self = DOM.createElement(options);
+
+      this.components = options.components || this.components;
     }
 
     else this.#self = Component.#getTemplate(name);
@@ -34,6 +38,7 @@ export class Component extends EventEmitter {
     this.#name = name;
 
     this.dataset.id = Component.uuid(name);
+    this.parseTemplate()
   }
 
   get self() { return this.#self };
@@ -59,13 +64,29 @@ export class Component extends EventEmitter {
   }
 
   parseTemplate() {
-   /*
-    Find and init data-bindings
-    
-    Find and instantiate child comps
-   */
+    /*
+     Find and init data-bindings
+     
+     Find and instantiate child comps
+    */
+
+    this.dom.querySelectorAll('[data-component-ref]')
+      .forEach((el, i) => {
+        const componentName = el.dataset.componentRef;
+    console.warn('IN COMPONENT' + this.constructor.name, {el});
+
+        this.components[componentName] = new this.components[componentName]();
+        el.replaceWith(this.components[componentName].dom)
+      });
+
+    console.warn('IN COMPONENT' + this.constructor.name);
+    console.log('this.components', this.components);
   }
-  
+
+  component() {
+    throw 'Must define create in child class of Component. Cannot call create on Component Class. '
+  }
+
   create() {
     throw 'Must define create in child class of Component. Cannot call create on Component Class. '
   }
