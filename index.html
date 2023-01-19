@@ -19,19 +19,20 @@
 </head>
 
 <body>
-  <main id="app">
+   <div data-component-ref="app" id="app"></div>
+  <!-- <main id="app">
     <div data-component-ref="modal-view"></div>
-   
+  
     <header id="app-header">
       <div class="header-container">
         <h1 class="header-text">Crazy Memory Game</h1>
       </div>
       <div data-component-ref="score-board" class="scoreboard">
-        <div data-component-ref="display-field"  class="turns">
+        <div data-component-ref="display-field" class="turns">
           <span class="turns-label">Turns:</span>
           <span class="turns-counter"></span>
         </div>
-        <div data-component-ref="display-field"  class="time">
+        <div data-component-ref="display-field" class="time">
           <span class="time-label">Time:</span>
           <span class="time-counter">0:00</span>
         </div>
@@ -43,7 +44,7 @@
     <footer class="app-footer">
       <div data-component-ref="share-button"></div>
     </footer>
-  </main>
+  </main> -->
 
 
   <script type="module" src="./js/main.js"></script>
@@ -55,8 +56,37 @@
     </div>
   </template>
 
+  <template id="app-template">
+    <main id="app">
+      <div data-component-ref="modal-view"></div>
+
+      <header id="app-header">
+        <div class="header-container">
+          <h1 class="header-text">Crazy Memory Game</h1>
+        </div>
+        <div data-component-ref="score-board" class="scoreboard">
+          <div _data-component-ref="display-field" class="turns">
+            <span class="turns-label">Turns:</span>
+            <span class="turns-counter"></span>
+          </div>
+          <div data-component-ref="game-clock" class="time">
+            <span class="time-label">Time:</span>
+            <span class="time-counter">0:00</span>
+          </div>
+        </div>
+      </header>
+      <section id="app-body">
+        <div data-component-ref="game-grid" id="game-grid"></div>
+      </section>
+      <footer class="app-footer">
+        <div data-component-ref="share-button"></div>
+      </footer>
+    </main>
+
+  </template>
+
   <template id="share-button-template">
-    <button id="share-button" class="shareButton">
+    <button id="share-button" class="shareButton" data-is-template="true">
       <svg id="share-icon" class="shareIcon" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 483 483">
         <g>
           <path d="
@@ -73,6 +103,13 @@
       <div id="modal-dimmer"></div>
       <div id="active-modal-container"></div>
     </section>
+  </template>
+  
+  <template id="game-clock-template">
+    <div id="game-clock" class="time">
+      <span class="time-label">Time:</span>
+      <span id="time-display" class="time-counter">0:00</span>
+    </div>
   </template>
 
   <template id="options-modal-template">
@@ -117,7 +154,7 @@
   <template id="game-grid-template">
     <div id="game-grid"></div>
   </template>
-  
+
   <template id="card-template">
     <div class="grid-cell card">
       <div class="card-content"></div>

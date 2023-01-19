@@ -13,15 +13,17 @@ export class Card extends Component {
           selected: false,
           matched: false,
           symbol: cardSymbol
-        }
+        },
+        // onclick: eventHandler,
       },
     });
-    
+
+    this.eventHandler = eventHandler;
     this.cardName = cardName;
     this.cardSymbol = cardSymbol;
     this.isSelected = false;
   }
-  
+
   get selected() {
     return this.dataset.selected === 'true' ? true : false;
   }

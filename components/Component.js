@@ -1,6 +1,10 @@
 import ham from 'https://hamilsauce.github.io/hamhelper/hamhelper1.0.0.js';
 import { EventEmitter } from 'https://hamilsauce.github.io/hamhelper/event-emitter.js';
 const { template, DOM, utils } = ham;
+import { text } from '../lib/text.js';
+const CONVERTEDTEXT = text.kebabToCamel('game-grid')
+
+console.warn('CONVERTEDTEXT', CONVERTEDTEXT)
 
 export const ElementProperties = {
   id: String,
@@ -65,26 +69,33 @@ export class Component extends EventEmitter {
 
   parseTemplate() {
     /*
-     Find and init data-bindings
+      Find and init data-bindings
      
-     Find and instantiate child comps
+      Find and instantiate child comps
     */
 
-    this.dom.querySelectorAll('[data-component-ref]')
-      .forEach((el, i) => {
-        const componentName = el.dataset.componentRef;
-    console.warn('IN COMPONENT' + this.constructor.name, {el});
-
-        this.components[componentName] = new this.components[componentName]();
-        el.replaceWith(this.components[componentName].dom)
-      });
+    this.dom.querySelectorAll('[data-component-ref]').forEach((el, i) => {
+      const componentName = el.dataset.componentRef;
+      console.warn('componentName', componentName)
+      console.warn('this.constructor.name', this.constructor.name)
+      if (!this.components[componentName] || !el) return;
+     
+      this.component(componentName, el);
+      // this.components[componentName] = new this.components[componentName]();
+      // console.log('el', { el })
+      // el.replaceWith(this.components[componentName].dom);
+    });
 
     console.warn('IN COMPONENT' + this.constructor.name);
     console.log('this.components', this.components);
   }
 
-  component() {
-    throw 'Must define create in child class of Component. Cannot call create on Component Class. '
+  component(componentName, el) {
+    if (!this.components[componentName]) return console.error('COMPONENT NOT REGISTERED: ' + `${ JSON.stringify({parent: this.constructor.name, componentName}) }`);
+    const name = text.kebabToCamel(componentName);
+    // this.components[componentName] = new this.components[componentName]();
+    this[name] = new this.components[componentName]();
+    el.replaceWith(this[name].dom);
   }
 
   create() {
