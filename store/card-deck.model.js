@@ -1,30 +1,23 @@
+import { CardModel } from './card.model.js';
 import { SYMBOL_NAMES } from '../js/symbols.js';
 
-console.log({ SYMBOL_NAMES });
-// const duped = [...SYMBOL_NAMES, ...SYMBOL_NAMES];
-// console.log('duped', duped)
-
 export class Deck {
-  cardSymbols = [];
-
   constructor() {
     this.cards = [];
   }
 
   get deckSize() { return this.cards.length; }
 
-  setDeck(matchSetSize = 2, cardSymbols = []) {
-    this.cardSymbols = [];
-
-    for (var i = 0; i < Things.length; i++) {
-      this.cardSymbols = [...this.cardSymbols, ...cardSymbols];
-    }
-
+  updateDeckSize() {
     return this.deckSize;
   }
 
   createMatchingCards() {
-    this.cards = this.cards.reduce((result, curr) => [...result].concat([curr]), []);
+    const c1 = this.cards[0];
+    console.log('c1', c1)
+    console.warn('{...c1}', { ...c1 })
+    this.cards = this.cards.reduce((result, curr) => [...result].concat([curr, Object.assign(curr, {})]), []);
+    console.log('deck cards', this.cards);
   }
 
   shuffle() {
@@ -34,8 +27,6 @@ export class Deck {
       let j = Math.floor(Math.random() * (i + 1));
       [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
     }
-    
-    return this;
   }
 
   insertCard(card) {

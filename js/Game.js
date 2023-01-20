@@ -2,16 +2,16 @@ import { Deck } from './Deck.js';
 
 export class Game {
   constructor(gameBoard) {
-    this.gameHistory = this.getHistory(),
-      this.gameBoard = gameBoard,
-      this.selected = [],
-      this.matched = [],
-      this.turns = 0,
-      this.stars,
-      this.playerName = '',
-      this.playedOn = new Date().toDateString(),
-      this.playedAt = new Date().toLocaleTimeString(),
-      this.deck = this.newDeck()
+    this.gameHistory = this.getHistory();
+      this.gameBoard = gameBoard;
+      this.selected = [];
+      this.matched = [];
+      this.turns = 0;
+      this.stars;
+      this.playerName = '';
+      this.playedOn = new Date().toDateString();
+      this.playedAt = new Date().toLocaleTimeString();
+      this.deck = this.newDeck();
   }
 
   newDeck() {
@@ -19,9 +19,11 @@ export class Game {
   }
 
   setBoard() {
-    this.deck.cards.forEach(card => {
-      this.gameBoard.appendChild(card.render());
-    })
+    this.deck
+      .shuffle()
+      .cards.forEach(card => {
+        this.gameBoard.append(card.render());
+      })
   }
 
   countCard() {
@@ -34,15 +36,15 @@ export class Game {
   }
 
   gameOver() {
-    const check = this.deck.deckSize === 0;''
-    
+    const check = this.deck.deckSize === 0;
+
     if (check === true) {
       this.getPlayerName();
       this.calculateStars();
       this.saveGame();
       this.getHistory();
     }
-    
+
     return check;
   }
 
@@ -56,6 +58,7 @@ export class Game {
 
   getPlayerName() {
     const name = prompt('Enter name: ');
+    
     this.playerName = name.length === 0 ? 'Anon' : name;
   }
 
@@ -77,7 +80,8 @@ export class Game {
   }
 
   saveGame() {
-    const gameId = this.gameHistory.length + 1
+    const gameId = this.gameHistory.length + 1;
+   
     const newSave = {
       id: gameId,
       gameDate: this.playedOn,
@@ -88,7 +92,7 @@ export class Game {
       playerTurns: this.turns
     }
 
-    console.warn({newSave});
+    console.warn({ newSave });
 
     firebase.database().ref("gameHistory/" + newSave.id).update(newSave);
   }

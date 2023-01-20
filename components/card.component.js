@@ -14,7 +14,6 @@ export class Card extends Component {
           matched: false,
           symbol: cardSymbol
         },
-        // onclick: eventHandler,
       },
     });
 
@@ -30,6 +29,20 @@ export class Card extends Component {
 
   static getSymbol(symbol) { return template(`${symbol}-symbol`) }
 
+  _render() {
+    // const card = template('card');
+    const symb = Card.getSymbol(this.cardSymbol);
+
+    this.dom.querySelector('.card-content').innerHTML = ''
+    this.dom.querySelector('.card-content').append(symb);
+    this.dom.classList.add(`${this.cardName}`, 'grid-cell', 'card');
+    this.dom.id = this.cardName;
+
+    this.dom.addEventListener('click', this.eventHandler);
+
+    return this.dom;
+  }
+  
   render() {
     const card = template('card');
     const symb = Card.getSymbol(this.cardSymbol);
