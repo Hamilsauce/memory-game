@@ -3,15 +3,15 @@ import { Deck } from './Deck.js';
 export class Game {
   constructor(gameBoard) {
     this.gameHistory = this.getHistory();
-      this.gameBoard = gameBoard;
-      this.selected = [];
-      this.matched = [];
-      this.turns = 0;
-      this.stars;
-      this.playerName = '';
-      this.playedOn = new Date().toDateString();
-      this.playedAt = new Date().toLocaleTimeString();
-      this.deck = this.newDeck();
+    this.gameBoard = gameBoard;
+    this.selected = [];
+    this.matched = [];
+    this.turns = 0;
+    this.stars;
+    this.playerName = '';
+    this.playedOn = new Date().toDateString();
+    this.playedAt = new Date().toLocaleTimeString();
+    this.deck = this.newDeck();
   }
 
   newDeck() {
@@ -26,9 +26,6 @@ export class Game {
       })
   }
 
-  countCard() {
-    this.cardCount++;
-  }
 
   addTurn() {
     this.turns++;
@@ -50,7 +47,6 @@ export class Game {
 
   resetGame() {
     this.turns = 0;
-    this.cardCount = 0;
     this.matched = [];
     this.gameTime = '0:00';
     this.deck.length = 0;
@@ -58,7 +54,7 @@ export class Game {
 
   getPlayerName() {
     const name = prompt('Enter name: ');
-    
+
     this.playerName = name.length === 0 ? 'Anon' : name;
   }
 
@@ -81,7 +77,7 @@ export class Game {
 
   saveGame() {
     const gameId = this.gameHistory.length + 1;
-   
+
     const newSave = {
       id: gameId,
       gameDate: this.playedOn,

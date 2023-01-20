@@ -1,4 +1,4 @@
-.grid-cell {
+.card {
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -25,7 +25,6 @@
   gap: 0px;
   width: 100%;
   height: 100%;
-  /* display: none; */
   opacity: 0;
   padding: 12px;
   transition: 0.5s;
@@ -41,14 +40,14 @@
 }
 
 
-.grid-cell.selected .card-content {
+.card.selected .card-content {
   /* display: initial; */
   /* background: #C1151582; */
   opacity: 1;
   filter: invert(100%) contrast(120%);
 }
 
-.grid-cell.selected svg {
+.card.selected svg {
   /* display: none; */
   opacity: 1;
   /* opacity: 0.8; */
@@ -67,11 +66,11 @@
   transform-style: preserve-3d;
 }
 
-.grid-cell.matched .card-content {
+.card.matched .card-content {
   opacity: 0.8;
 }
 
-.grid-cell.matched svg {
+.card.matched svg {
   opacity: 0.3;
 }
 

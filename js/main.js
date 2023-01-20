@@ -1,5 +1,4 @@
 import { SYMBOL_NAMES } from './symbols.js';
-// import { Card } from './Card.js';
 import { Deck } from './Deck.js';
 import { Card } from '../components/card.component.js';
 import { AppComponent } from '../components/app.component.js';
@@ -11,28 +10,59 @@ import { Game } from './Game.js';
 import { settingsAlert } from './settings.js';
 import { initializeFirebase } from '../firebase/firebase.js';
 
+
+export class Pair {
+  #limit = 2
+  #items = new Array(2);
+
+  constructor(matcherFn) {}
+
+  static create(itemA, itemB, matcherFn = (a, b) => a === b) {
+    if (!(itemA && itemB)) return console.error('Need two items passed to Pair.set');
+
+
+
+    this.#items.push(itemA, itemB);
+
+    return this.size;
+  }
+
+  add(item) {
+    if (!this.isFull) {
+      this.#items.push(item);
+    }
+
+    return this.size;
+  }
+
+  clear() {
+    const [first, second] = this.#items;
+
+    this.#items = [];
+
+    return [first, second];
+  }
+
+  get first() { return this.#items[0] || null };
+
+  get second() { return this.#items[1] || null };
+
+  get size() { return this.#items.length };
+
+  get isFull() { return this.#items.length >= this.#limit };
+}
+
+
 initializeFirebase();
 
-const userform = document.querySelector('.userform');
+// const userform = document.querySelector('.userform');
 
 let prevTarget;
 
-
 const app = new AppComponent();
+const CardPair = new Pair();
 
 document.querySelector('[data-component-ref="app"]').replaceWith(app.dom)
-
-// const clock = new GameClock();
-// const modalView = new ModalView();
-// const shareButton = new ShareButton();
-// const gameGrid = new GameGrid();
-
-
-// document.querySelector('[data-component-ref="modal-view"]').replaceWith(modalView.dom)
-// document.querySelector('[data-component-ref="share-button"]').replaceWith(shareButton.dom)
-// document.querySelector('[data-component-ref="game-grid"]').replaceWith(gameGrid.dom)
-
-
 
 document.addEventListener('user:action', e => {
   const { action } = e.detail;
@@ -41,12 +71,16 @@ document.addEventListener('user:action', e => {
 });
 
 function handleCardSelect(event) {
-  const card = event.target.closest('.card')
+  const targ = event.target.closest('.card')
 
-  const selectCard = (card) => { //adds clicked card to selected array
-    card.classList.add('selected');
-    app.game.selected.push(card);
+  const selectCard = (cardDOM) => { //adds clicked card to selected array
+    cardDOM.classList.add('selected');
+    app.game.selected.push(cardDOM);
   }
+
+
+  // TEMP
+  let card = targ;
 
   if (card === prevTarget && card.classList.contains('selected')) { //! Tests if card already selected, deselects if so
     card.classList.remove('selected');
@@ -69,13 +103,12 @@ function handleCardSelect(event) {
 const checkSelected = cardPair => {
   let deckCheck;
 
-  const [card1, card2] = cardPair;
+  console.log({ ...cardPair });
 
-
-  if (card1.id === card2.id) { //! a match is made!
+  if (cardPair[0].id === cardPair[1].id) { //! a match is made!
     cardPair.forEach(card => {
 
-      // Set timeout used for transition delay
+      // Timeout used for transition delay
       setTimeout(() => {
         card.classList.remove('selected');
         card.classList.add('matched');
@@ -94,8 +127,6 @@ const checkSelected = cardPair => {
 
       app.game.matched.push(matchedCard);
 
-      // game.deck.updateDeckSize();
-
       //!after each match is made, test if deck is depleted/game over or not
       deckCheck = app.game.deck.cards.length == 0 ? 'allCardsMatched' : '';
     });
@@ -104,12 +135,7 @@ const checkSelected = cardPair => {
     cardPair.forEach(card => {
       setTimeout(() => {
         card.classList.remove('selected');
-        card.classList.add('noMatch');
       }, 600);
-
-      setTimeout(() => { //remove selected class, replace with matched. then remove event lsiteners
-        card.classList.remove('noMatch');
-      }, 1200);
     });
   }
 
@@ -129,8 +155,6 @@ const checkSelected = cardPair => {
 const cardMaker = (cSymbol) => {
   const cardClass = `cell${cSymbol}`;
   const newCard = new Card(cardClass, cSymbol, handleCardSelect);
-
-  app.game.countCard();
 
   return newCard;
 }
@@ -212,33 +236,6 @@ setTimeout(() => {
   });
 
   // TODO Put sharebutton in module
-  // document.querySelector('.shareButton').addEventListener('click', () => {
-  //   const shareButton = document.querySelector('.shareButton');
-  //   const title = document.querySelector('h1').textContent;
-  //   const buttonContent = shareButton.innerHTML;
-  //   const url =
-  //     document.querySelector('link[rel=canonical]') &&
-  //     document.querySelector('link[rel=canonical]').href ||
-  //     window.location.href;
-
-  //   if (navigator.share) {
-  //     navigator.share({ title, url })
-  //       .then(() => {})
-  //       .catch(err => {
-  //         alert('No built in share technology');
-  //       });
-  //   }
-  //   else {
-  //     setTimeout(() => {
-  //       shareButton.textContent = 'Not supported by browser...';
-  //     }, 500);
-
-  //     setTimeout(() => {
-  //       shareButton.innerHTML = buttonContent;
-  //     }, 2000);
-  //   }
-  // });
-
 }, 1000)
 
 

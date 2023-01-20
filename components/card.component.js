@@ -8,8 +8,9 @@ export class Card extends Component {
       templateName: 'card',
       elementProperties: {
         id: cardName,
-        classList: ['card', 'grid-cell', cardName],
-        data: {
+        classList: ['card'],
+        // classList: ['card', 'grid-cell', cardName],
+        dataset: {
           selected: false,
           matched: false,
           symbol: cardSymbol
@@ -18,38 +19,43 @@ export class Card extends Component {
     });
 
     this.eventHandler = eventHandler;
-    this.cardName = cardName;
-    this.cardSymbol = cardSymbol;
-    this.isSelected = false;
   }
 
-  get selected() {
+  get content() {
+    return this.selectDOM('.card-content');
+  }
+
+  get symbol() {
+    return this.dataset.symbol
+  }
+
+  // set symbol(v) {
+  //   this.dataset.selected = v === true ? true : false;
+  // }
+
+  get isSelected() {
     return this.dataset.selected === 'true' ? true : false;
+  }
+
+  set isSelected(v) {
+    this.dataset.selected = v === true ? true : false;
   }
 
   static getSymbol(symbol) { return template(`${symbol}-symbol`) }
 
-  _render() {
-    // const card = template('card');
-    const symb = Card.getSymbol(this.cardSymbol);
+  matches(card) { return card.symbol === this.symbol }
 
-    this.dom.querySelector('.card-content').innerHTML = ''
-    this.dom.querySelector('.card-content').append(symb);
-    this.dom.classList.add(`${this.cardName}`, 'grid-cell', 'card');
-    this.dom.id = this.cardName;
-
-    this.dom.addEventListener('click', this.eventHandler);
-
-    return this.dom;
-  }
-  
   render() {
-    const card = template('card');
-    const symb = Card.getSymbol(this.cardSymbol);
+    const card = this.dom;
 
-    card.querySelector('.card-content').append(symb);
-    card.classList.add(`${this.cardName}`, 'grid-cell', 'card');
-    card.id = this.cardName;
+    const symb = Card.getSymbol(this.symbol);
+
+    this.content.append(symb);
+
+    // card.classList.add(`${this.cardName}`, 'grid-cell', 'card');
+    // card.classList.add('card');
+
+    // card.id = this.cardName;
 
     card.addEventListener('click', this.eventHandler);
 

@@ -20,6 +20,9 @@ export class Component extends EventEmitter {
   #name;
   components = {};
 
+  /* Maybe add components to children instead of direct to instance  */
+  children = new Map();
+
   constructor(name, options = ComponentOptions) {
     super();
 
@@ -73,7 +76,7 @@ export class Component extends EventEmitter {
 
     this.dom.querySelectorAll('[data-component-ref]').forEach((el, i) => {
 
-      if (!el || !this.components[el.dataset.componentRef]) return;
+      if (!this.components[el.dataset.componentRef]) return;
 
       const componentName = el.dataset.componentRef;
 
@@ -88,8 +91,10 @@ export class Component extends EventEmitter {
 
     this[name] = new this.components[componentName]();
 
-    el.replaceWith(this[name].dom);
+    if (el) el.replaceWith(this[name].dom);
   }
+
+  render() {}
 
   create() {
     throw 'Must define create in child class of Component. Cannot call create on Component Class. '

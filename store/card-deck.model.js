@@ -1,7 +1,8 @@
 import { CardModel } from './card.model.js';
 import { SYMBOL_NAMES } from '../js/symbols.js';
 
-export class Deck {
+export class DeckModel {
+  
   constructor() {
     this.cards = [];
   }

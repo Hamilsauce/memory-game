@@ -32,6 +32,10 @@ export class CardModel {
 
     return this;
   }
+ 
+  matches(card) {
+    return this.symbol === card.symbol;
+  }
 
   get symbol() { return this.#symbol };
 
