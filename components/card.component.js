@@ -3,13 +3,14 @@ const { template, utils } = ham;
 import { Component } from './Component.js';
 
 export class Card extends Component {
+  #handleClick = null;
+
   constructor(cardName, cardSymbol, eventHandler) {
     super('card', {
       templateName: 'card',
       elementProperties: {
         id: cardName,
         classList: ['card'],
-        // classList: ['card', 'grid-cell', cardName],
         dataset: {
           selected: false,
           matched: false,
@@ -18,20 +19,30 @@ export class Card extends Component {
       },
     });
 
-    this.eventHandler = eventHandler;
+    this.#handleClick = eventHandler
+    // this.#handleClick = this.#onClick.bind(this);
   }
 
   get content() {
     return this.selectDOM('.card-content');
   }
 
+  get id() {
+    return this.dataset.id;
+  }
+
   get symbol() {
     return this.dataset.symbol
   }
 
-  // set symbol(v) {
-  //   this.dataset.selected = v === true ? true : false;
-  // }
+  get isMatched() {
+    return this.dataset.matched === 'true' ? true : false;
+  }
+
+  set isMatched(v) {
+    this.isSelected = v === true ? false : this.isSelected;
+    this.dataset.matched = v === true ? true : false;
+  }
 
   get isSelected() {
     return this.dataset.selected === 'true' ? true : false;
@@ -43,21 +54,14 @@ export class Card extends Component {
 
   static getSymbol(symbol) { return template(`${symbol}-symbol`) }
 
-  matches(card) { return card.symbol === this.symbol }
+  matches(card) { return this !== card && this.symbol === card.symbol }
 
   render() {
     const card = this.dom;
 
-    const symb = Card.getSymbol(this.symbol);
+    this.content.append(Card.getSymbol(this.symbol));
 
-    this.content.append(symb);
-
-    // card.classList.add(`${this.cardName}`, 'grid-cell', 'card');
-    // card.classList.add('card');
-
-    // card.id = this.cardName;
-
-    card.addEventListener('click', this.eventHandler);
+    card.addEventListener('click', this.#handleClick);
 
     return card;
   }
@@ -66,7 +70,17 @@ export class Card extends Component {
     this.isSelected = !this.isSelected;
   }
 
-  toggleMatched() {
-    this.matched = !this.matched;
+  setMatched() {
+    this.matched = true;
+  }
+
+  #onClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    this.emitDOM('card:selection', {
+      id: this.id,
+      isSelected: this.isSelected
+    });
   }
 }

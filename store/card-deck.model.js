@@ -1,17 +1,14 @@
 import { CardModel } from './card.model.js';
 import { SYMBOL_NAMES } from '../js/symbols.js';
+import { Pair } from '../lib/Pair.js';
 
 export class DeckModel {
-  
+
   constructor() {
     this.cards = [];
   }
 
   get deckSize() { return this.cards.length; }
-
-  updateDeckSize() {
-    return this.deckSize;
-  }
 
   createMatchingCards() {
     const c1 = this.cards[0];

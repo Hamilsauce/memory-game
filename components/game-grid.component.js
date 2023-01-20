@@ -1,6 +1,7 @@
 import ham from 'https://hamilsauce.github.io/hamhelper/hamhelper1.0.0.js';
 const { template, utils } = ham;
 import { Component } from './Component.js';
+import { Card } from './card.component.js';
 
 export class GameGrid extends Component {
   constructor() {
@@ -8,9 +9,16 @@ export class GameGrid extends Component {
       templateName: 'game-grid',
       elementProperties: {},
     });
-  }
+    
+    this.handleCardSelect = this.#handleCardSelect.bind(this);
 
-  handleCardSelect(event) {
+this.dom .addEventListener('card:selection', e => {
+console.log('HEARD CARD SELECTION IN GRID', e);
+  
+});
+}
+
+  #handleCardSelect(event) {
     const card = event.target.closest('.card')
 
     const selectCard = (card) => { //adds clicked card to selected array

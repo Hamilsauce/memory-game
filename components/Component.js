@@ -1,7 +1,7 @@
 import ham from 'https://hamilsauce.github.io/hamhelper/hamhelper1.0.0.js';
 import { EventEmitter } from 'https://hamilsauce.github.io/hamhelper/event-emitter.js';
 const { template, DOM, utils, text } = ham;
-
+console.log('EventEmitter', EventEmitter)
 export const ElementProperties = {
   id: String,
   classList: Array,
@@ -108,5 +108,9 @@ export class Component extends EventEmitter {
     const result = [...this.#self.querySelectorAll(selector)];
 
     return result.length === 1 ? result[0] : result;
+  }
+
+  emitDOM(type, detail) {
+    this.dom.dispatchEvent(new CustomEvent(type, { bubbles: true, detail }));
   }
 };
